@@ -1,5 +1,6 @@
 package com.martinsanguin.gelty;
 
+import com.martinsanguin.gelty.domain.MedicalShift;
 import com.martinsanguin.gelty.domain.Study;
 import com.martinsanguin.gelty.domain.exceptions.StudyDateException;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,6 +17,7 @@ public class StudyTests {
     private Study studyNotExpired;
     private Study studyWithoutDate;
     private Study studyExpiredBy30minutes;
+    private MedicalShift medicalShiftExpired;
 
     @BeforeEach
     void setUp() {
@@ -43,11 +45,18 @@ public class StudyTests {
         Calendar currentDayPlus30Minutes = Calendar.getInstance();
         currentDayPlus30Minutes.add(Calendar.MINUTE,30);
         studyExpiredBy30minutes.setDate(currentDayPlus30Minutes);
+
+        medicalShiftExpired = new MedicalShift();
+        medicalShiftExpired.setDate(currentDayPlusOne);
+
+
+
     }
 
     @Test
     public void studyExpired() throws Exception{
         assertTrue(studyExpired.isExpired(),"The study should be expired.");
+        assertTrue(medicalShiftExpired.isExpired());
     }
 
     @Test

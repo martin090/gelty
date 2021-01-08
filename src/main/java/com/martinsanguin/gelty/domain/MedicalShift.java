@@ -8,10 +8,9 @@ import java.util.Calendar;
 
 @Getter
 @Setter
-public class Study {
+public class MedicalShift {
     private Calendar date;
-
-    public boolean isExpired() throws StudyDateException{
+    public boolean isExpired() throws StudyDateException {
         if(date == null)
             throw new StudyDateException("Study date can't be null.");
         return date.after(Calendar.getInstance());
