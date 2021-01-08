@@ -2,7 +2,7 @@ package com.martinsanguin.gelty;
 
 import com.martinsanguin.gelty.domain.MedicalShift;
 import com.martinsanguin.gelty.domain.Study;
-import com.martinsanguin.gelty.domain.exceptions.StudyDateException;
+import com.martinsanguin.gelty.domain.exceptions.ShiftDateException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -71,7 +71,7 @@ public class StudyTests {
 
     @Test
     public void studyWithoutDateThrowsExceptionWhenEvaluateExpiration(){
-        assertThrows(StudyDateException.class,() -> {studyWithoutDate.isExpired();});
+        assertThrows(ShiftDateException.class,() -> {studyWithoutDate.isExpired();});
     }
 
     @Test
