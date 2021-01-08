@@ -30,10 +30,10 @@ C) TDD
 
 How can I define the test?
 
-OK - Study outdated.
-OK - Study outdated by a few minutes.
-- Medical Shifts outdated?
-- Refactor name StudyException.
+OK - Study expired.
+OK - Study expired by a few minutes.
+OK - Medical Shifts expired?
+OK - Refactor name StudyException.
 - Send notification before a study/shift is outdated.
 - Reserve a shift.
 - Reserve a shift and you don't have time for that.
