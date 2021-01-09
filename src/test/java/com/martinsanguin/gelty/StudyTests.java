@@ -2,7 +2,7 @@ package com.martinsanguin.gelty;
 
 import com.martinsanguin.gelty.domain.MedicalShift;
 import com.martinsanguin.gelty.domain.Study;
-import com.martinsanguin.gelty.domain.exceptions.StudyDateException;
+import com.martinsanguin.gelty.domain.exceptions.ShiftDateException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -18,6 +18,10 @@ public class StudyTests {
     private Study studyWithoutDate;
     private Study studyExpiredBy30minutes;
     private MedicalShift medicalShiftExpired;
+    private MedicalShift medicalShiftNotExpiredSameDay;
+    private MedicalShift medicalShiftNotExpired;
+    private MedicalShift medicalShiftWithoutDate;
+    private MedicalShift medicalShiftExpiredBy30minutes;
 
     @BeforeEach
     void setUp() {
@@ -49,34 +53,47 @@ public class StudyTests {
         medicalShiftExpired = new MedicalShift();
         medicalShiftExpired.setDate(currentDayPlusOne);
 
+        medicalShiftNotExpiredSameDay = new MedicalShift();
+        medicalShiftNotExpiredSameDay.setDate(Calendar.getInstance());
 
+        medicalShiftNotExpired = new MedicalShift();
+        medicalShiftNotExpired.setDate(currentDayMinusOne);
+
+        medicalShiftWithoutDate = new MedicalShift();
+
+        medicalShiftExpiredBy30minutes = new MedicalShift();
+        medicalShiftExpiredBy30minutes.setDate(currentDayPlus30Minutes);
 
     }
 
     @Test
-    public void studyExpired() throws Exception{
+    public void shiftExpired() throws Exception{
         assertTrue(studyExpired.isExpired(),"The study should be expired.");
-        assertTrue(medicalShiftExpired.isExpired());
+        assertTrue(medicalShiftExpired.isExpired(),"The medical shift should be expired.");
     }
 
     @Test
-    public void studyNotExpiredInTheSameDay() throws Exception{
+    public void shiftNotExpiredInTheSameDay() throws Exception{
         assertFalse(studyNotExpiredSameDay.isExpired(),"The study should not be expired.");
+        assertFalse(medicalShiftNotExpiredSameDay.isExpired(),"The medical shift should not be expired.");
     }
 
     @Test
-    public void studyNotExpired() throws Exception{
+    public void shiftNotExpired() throws Exception{
         assertFalse(studyNotExpired.isExpired(),"The study should not be expired.");
+        assertFalse(medicalShiftNotExpired.isExpired(),"The medical shift should not be expired.");
     }
 
     @Test
-    public void studyWithoutDateThrowsExceptionWhenEvaluateExpiration(){
-        assertThrows(StudyDateException.class,() -> {studyWithoutDate.isExpired();});
+    public void shiftWithoutDateThrowsExceptionWhenEvaluateExpiration(){
+        assertThrows(ShiftDateException.class,() -> {studyWithoutDate.isExpired();});
+        assertThrows(ShiftDateException.class,() -> {medicalShiftWithoutDate.isExpired();});
     }
 
     @Test
-    public void studyExpiredByMinutes() throws Exception{
-        assertTrue(studyExpiredBy30minutes.isExpired(),"The test should be expired by diference of minutes.");
+    public void shiftExpiredByMinutes() throws Exception{
+        assertTrue(studyExpiredBy30minutes.isExpired(),"The study should be expired by diference of minutes.");
+        assertTrue(medicalShiftExpiredBy30minutes.isExpired(),"The medical shift should be expired by diference of minutes.");
     }
 
 }

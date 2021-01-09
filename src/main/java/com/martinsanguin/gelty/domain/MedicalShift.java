@@ -1,6 +1,6 @@
 package com.martinsanguin.gelty.domain;
 
-import com.martinsanguin.gelty.domain.exceptions.StudyDateException;
+import com.martinsanguin.gelty.domain.exceptions.ShiftDateException;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,9 +10,9 @@ import java.util.Calendar;
 @Setter
 public class MedicalShift {
     private Calendar date;
-    public boolean isExpired() throws StudyDateException {
+    public boolean isExpired() throws ShiftDateException {
         if(date == null)
-            throw new StudyDateException("Study date can't be null.");
+            throw new ShiftDateException("Medical shift date can't be null.");
         return date.after(Calendar.getInstance());
     }
 }
