@@ -1,15 +1,11 @@
 package com.martinsanguin.gelty.domain;
 
 import com.martinsanguin.gelty.domain.exceptions.ShiftDateException;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.util.Calendar;
 
-@Getter
-@Setter
-public class Study {
-    private Calendar date;
+
+public class Study extends Shift {
 
     public boolean isExpired() throws ShiftDateException {
         if(date == null)
