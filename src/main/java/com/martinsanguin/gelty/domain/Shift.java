@@ -12,6 +12,8 @@ public abstract class Shift {
     protected Calendar date;
     public abstract boolean isExpired() throws ShiftDateException;
 
+
+    //Factory method.
     public static Shift createMedicalShift(){
         return new MedicalShift();
     }
