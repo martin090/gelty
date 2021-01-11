@@ -1,7 +1,6 @@
 package com.martinsanguin.gelty;
 
-import com.martinsanguin.gelty.domain.MedicalShift;
-import com.martinsanguin.gelty.domain.Study;
+import com.martinsanguin.gelty.domain.Shift;
 import com.martinsanguin.gelty.domain.exceptions.ShiftDateException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,56 +11,56 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class StudyTests {
 
-    private Study studyExpired;
-    private Study studyNotExpiredSameDay;
-    private Study studyNotExpired;
-    private Study studyWithoutDate;
-    private Study studyExpiredBy30minutes;
-    private MedicalShift medicalShiftExpired;
-    private MedicalShift medicalShiftNotExpiredSameDay;
-    private MedicalShift medicalShiftNotExpired;
-    private MedicalShift medicalShiftWithoutDate;
-    private MedicalShift medicalShiftExpiredBy30minutes;
+    private Shift studyExpired;
+    private Shift studyNotExpiredSameDay;
+    private Shift studyNotExpired;
+    private Shift studyWithoutDate;
+    private Shift studyExpiredBy30minutes;
+    private Shift medicalShiftExpired;
+    private Shift medicalShiftNotExpiredSameDay;
+    private Shift medicalShiftNotExpired;
+    private Shift medicalShiftWithoutDate;
+    private Shift medicalShiftExpiredBy30minutes;
 
     @BeforeEach
     void setUp() {
         //Study outdated
-        studyExpired = new Study();
+        studyExpired = Shift.createStudy();
         Calendar currentDayPlusOne = Calendar.getInstance();
         currentDayPlusOne.add(Calendar.DATE,1);
         studyExpired.setDate(currentDayPlusOne);
 
         //Study not outdated (same day)
-        studyNotExpiredSameDay = new Study();
+        studyNotExpiredSameDay = Shift.createStudy();
         studyNotExpiredSameDay.setDate(Calendar.getInstance());
 
         //Study not outdated (one day before)
-        studyNotExpired = new Study();
+        studyNotExpired = Shift.createStudy();
         Calendar currentDayMinusOne = Calendar.getInstance();
         currentDayMinusOne.add(Calendar.DATE,-1);
         studyNotExpired.setDate(currentDayMinusOne);
 
         //Study without date
-        studyWithoutDate = new Study();
+        studyWithoutDate = Shift.createStudy();
 
         //Study expired by 30 minutes
-        studyExpiredBy30minutes = new Study();
+        studyExpiredBy30minutes = Shift.createStudy();
         Calendar currentDayPlus30Minutes = Calendar.getInstance();
         currentDayPlus30Minutes.add(Calendar.MINUTE,30);
         studyExpiredBy30minutes.setDate(currentDayPlus30Minutes);
 
-        medicalShiftExpired = new MedicalShift();
+        medicalShiftExpired = Shift.createMedicalShift();
         medicalShiftExpired.setDate(currentDayPlusOne);
 
-        medicalShiftNotExpiredSameDay = new MedicalShift();
+        medicalShiftNotExpiredSameDay = Shift.createMedicalShift();
         medicalShiftNotExpiredSameDay.setDate(Calendar.getInstance());
 
-        medicalShiftNotExpired = new MedicalShift();
+        medicalShiftNotExpired = Shift.createMedicalShift();
         medicalShiftNotExpired.setDate(currentDayMinusOne);
 
-        medicalShiftWithoutDate = new MedicalShift();
+        medicalShiftWithoutDate = Shift.createMedicalShift();
 
-        medicalShiftExpiredBy30minutes = new MedicalShift();
+        medicalShiftExpiredBy30minutes = Shift.createMedicalShift();
         medicalShiftExpiredBy30minutes.setDate(currentDayPlus30Minutes);
 
     }
