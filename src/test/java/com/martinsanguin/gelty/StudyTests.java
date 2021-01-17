@@ -37,7 +37,7 @@ public class StudyTests {
         //Study not outdated (one day before)
         studyNotExpired = Shift.createStudy();
         Calendar currentDayMinusOne = Calendar.getInstance();
-        currentDayMinusOne.add(Calendar.DATE,-1);
+        currentDayMinusOne.add(Calendar.DATE,-2);
         studyNotExpired.setDate(currentDayMinusOne);
 
         //Study without date
@@ -93,6 +93,21 @@ public class StudyTests {
     public void shiftExpiredByMinutes() throws Exception{
         assertTrue(studyExpiredBy30minutes.isExpired(),"The study should be expired by diference of minutes.");
         assertTrue(medicalShiftExpiredBy30minutes.isExpired(),"The medical shift should be expired by diference of minutes.");
+    }
+
+    @Test
+    public void sendNotification2DaysBeforeShiftBecameOutdated(){
+        assertTrue(true);
+    }
+
+    @Test
+    public void shiftIs2DaysBeforeExpire() throws Exception{
+        assertEquals(2,studyNotExpired.daysToExpire());
+    }
+
+    @Test
+    public void shiftIsExpiredAndDaysToExpireIsCero() throws Exception{
+        assertEquals(0,studyExpired.daysToExpire());
     }
 
 }
