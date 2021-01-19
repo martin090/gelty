@@ -1,7 +1,11 @@
 package com.martinsanguin.gelty;
 
+import com.martinsanguin.gelty.domain.InAppNotification;
+import com.martinsanguin.gelty.domain.InAppNotifier;
 import com.martinsanguin.gelty.domain.Shift;
+import com.martinsanguin.gelty.domain.User;
 import com.martinsanguin.gelty.domain.exceptions.ShiftDateException;
+import com.martinsanguin.gelty.domain.interfaces.Notifier;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -37,7 +41,7 @@ public class StudyTests {
         //Study not outdated (one day before)
         studyNotExpired = Shift.createStudy();
         Calendar currentDayMinusOne = Calendar.getInstance();
-        currentDayMinusOne.add(Calendar.DATE,-1);
+        currentDayMinusOne.add(Calendar.DATE,-2);
         studyNotExpired.setDate(currentDayMinusOne);
 
         //Study without date
@@ -93,6 +97,27 @@ public class StudyTests {
     public void shiftExpiredByMinutes() throws Exception{
         assertTrue(studyExpiredBy30minutes.isExpired(),"The study should be expired by diference of minutes.");
         assertTrue(medicalShiftExpiredBy30minutes.isExpired(),"The medical shift should be expired by diference of minutes.");
+    }
+
+    @Test
+    public void sendNotification2DaysBeforeShiftBecameOutdated(){
+        User user = new User();
+        user.getShitfs().add(studyNotExpired);
+
+        Notifier notifier = new InAppNotifier();
+        notifier.sendNotificationsForShifts(user, new InAppNotification(Calendar.getInstance(),"Notification description"));
+
+        assertEquals(1,user.getNotifications().size());
+    }
+
+    @Test
+    public void shiftIs2DaysBeforeExpire() throws Exception{
+        assertEquals(2,studyNotExpired.daysToExpire());
+    }
+
+    @Test
+    public void shiftIsExpiredAndDaysToExpireIsCero() throws Exception{
+        assertEquals(0,studyExpired.daysToExpire());
     }
 
 }
