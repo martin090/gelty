@@ -1,7 +1,11 @@
 package com.martinsanguin.gelty;
 
+import com.martinsanguin.gelty.domain.InAppNotification;
+import com.martinsanguin.gelty.domain.InAppNotifier;
 import com.martinsanguin.gelty.domain.Shift;
+import com.martinsanguin.gelty.domain.User;
 import com.martinsanguin.gelty.domain.exceptions.ShiftDateException;
+import com.martinsanguin.gelty.domain.interfaces.Notifier;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -97,7 +101,13 @@ public class StudyTests {
 
     @Test
     public void sendNotification2DaysBeforeShiftBecameOutdated(){
-        assertTrue(true);
+        User user = new User();
+        user.getShitfs().add(studyNotExpired);
+
+        Notifier notifier = new InAppNotifier();
+        notifier.sendNotificationsForShifts(user, new InAppNotification(Calendar.getInstance(),"Notification description"));
+
+        assertEquals(1,user.getNotifications().size());
     }
 
     @Test
