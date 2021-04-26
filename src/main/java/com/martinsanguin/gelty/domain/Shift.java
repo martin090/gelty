@@ -1,19 +1,35 @@
 package com.martinsanguin.gelty.domain;
 
 import com.martinsanguin.gelty.domain.exceptions.ShiftDateException;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-import java.time.Duration;
-import java.time.LocalDate;
+import javax.persistence.*;
 import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
 
-@Getter
-@Setter
+@Data
+@Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "shiftType")
 public abstract class Shift {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    protected Long id;
     protected Calendar date;
+    protected Boolean reserved = false;
+    protected Specialitation specialitation;
+
     public abstract boolean isExpired() throws ShiftDateException;
+
+    public void reserve(User patient) throws ShiftDateException{
+        if(!this.isExpired()){
+            this.reserved = true;
+            patient.getShitfs().add(this);
+        }else{
+            this.reserved = false;
+        }
+    };
 
     public long daysToExpire() throws ShiftDateException{
         if(this.date == null)
@@ -26,6 +42,8 @@ public abstract class Shift {
 
         return Math.abs(ChronoUnit.DAYS.between(today.toInstant(),this.date.toInstant()));
     }
+
+    public boolean isReserved(){ return this.reserved; }
 
     //Factory method.
     public static Shift createMedicalShift(){
