@@ -25,6 +25,8 @@ public class StudyTests {
     private Shift medicalShiftNotExpired;
     private Shift medicalShiftWithoutDate;
     private Shift medicalShiftExpiredBy30minutes;
+    private User patient1;
+    private User patient2;
 
     @BeforeEach
     void setUp() {
@@ -66,6 +68,9 @@ public class StudyTests {
 
         medicalShiftExpiredBy30minutes = Shift.createMedicalShift();
         medicalShiftExpiredBy30minutes.setDate(currentDayPlus30Minutes);
+
+        patient1 = new User();
+        patient2 = new User();
 
     }
 
@@ -118,6 +123,25 @@ public class StudyTests {
     @Test
     public void shiftIsExpiredAndDaysToExpireIsCero() throws Exception{
         assertEquals(0,studyExpired.daysToExpire());
+    }
+
+    @Test
+    public void shiftBecameReserved() throws Exception{
+        studyNotExpired.reserve(patient1);
+        medicalShiftNotExpired.reserve(patient1);
+        assertTrue(studyNotExpired.isReserved());
+        assertTrue(medicalShiftNotExpired.isReserved());
+        assertEquals(2,patient1.getShitfs().size());
+
+    }
+
+    @Test
+    public void shiftExpiredCanNotBeReserved() throws Exception{
+        studyExpired.reserve(patient1);
+        medicalShiftExpired.reserve(patient1);
+        assertFalse(studyExpired.isReserved());
+        assertFalse(medicalShiftExpired.isReserved());
+        assertEquals(0,patient2.getShitfs().size());
     }
 
 }
