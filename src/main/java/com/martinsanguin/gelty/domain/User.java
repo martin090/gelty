@@ -4,6 +4,7 @@ import com.martinsanguin.gelty.domain.interfaces.INotification;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,4 +13,5 @@ import java.util.List;
 public class User {
     private List<Shift> shitfs = new ArrayList<Shift>();
     private List<INotification> notifications = new ArrayList<INotification>();
+
 }
